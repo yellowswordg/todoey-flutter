@@ -23,14 +23,14 @@ class TaskTile extends StatelessWidget {
       onLongPress: longPressCallback,
       title: Text(
         taskTitle,
-        style: TextStyle(decoration: TextDecoration.none),
-        // decoration: isChecked ? TextDecoration.lineThrough : null),
+        style: TextStyle(
+            decoration: isChecked ? TextDecoration.lineThrough : null),
       ),
-      // trailing: Checkbox(
-      //   activeColor: Colors.lightBlueAccent,
-      //   value: isChecked,
-      //   onChanged: checkboxCallback,
-      // ),
+      trailing: Checkbox(
+        activeColor: Colors.lightBlueAccent,
+        value: isChecked,
+        onChanged: checkboxCallback,
+      ),
     );
   }
 }

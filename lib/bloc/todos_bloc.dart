@@ -36,7 +36,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           .map((item) => Task(
                 id: item['id'],
                 task: item['task'],
-                isDone: item['isDone'],
+                isDone: item['isDone'] == 1 ? true : false,
               ))
           .toList());
     } catch (_) {
@@ -53,7 +53,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
         return Task(
           id: item['id'],
           task: item['task'],
-          isDone: item['isDone'],
+          isDone: item['isDone'] == 1 ? true : false,
         );
       }).toList());
     } catch (_) {
@@ -69,7 +69,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       taskRepository.insertTask('todos', {
         'id': event.task.id,
         'task': event.task.task,
-        'isDone': event.task.isDone
+        'isDone': event.task.isDone == true ? 1 : 0,
       });
     } catch (_) {
       yield TodosFailure();
@@ -100,7 +100,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       taskRepository.insertTask('todos', {
         'id': event.task.id,
         'task': event.task.task,
-        'isDone': event.task.isDone
+        'isDone': event.task.isDone == true ? 1 : 0
       });
     } catch (_) {
       yield TodosFailure();

@@ -4,7 +4,6 @@ import 'package:todoey_flutter/models/task.dart';
 import 'dart:collection';
 
 class TaskRepository {
-  
   static const String DB_NAME = 'todos.db';
 
   Future<Database> database() async {
@@ -13,7 +12,7 @@ class TaskRepository {
     //it will open existing data base or otherwise will create data base with specified name
     return openDatabase(path.join(dbPath, DB_NAME), onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE todos(id TEXT PRIMARY KEY, task TEXT, isDone BOOLEAN)');
+          'CREATE TABLE todos(id TEXT PRIMARY KEY, task TEXT, isDone INT)');
     }, version: 1);
   }
 
@@ -44,8 +43,11 @@ class TaskRepository {
   Future<List<Map<String, dynamic>>> populateList(String table) async {
     final db = await database();
     tasks.forEach((element) {
-      db.insert(table,
-          {'id': element.id, 'task': element.task, 'isDone': element.isDone});
+      db.insert(table, {
+        'id': element.id,
+        'task': element.task,
+        'isDone': element.isDone == true ? 1 : 0,
+      });
     });
     return db.query(table);
   }

@@ -20,9 +20,9 @@ class TasksList extends StatelessWidget {
                 taskTitle: state.tasks[index].task,
                 isChecked: state.tasks[index].isDone,
                 checkboxCallback: (_) {
-                  // context.bloc<TodosBloc>().add(TodosUpdate(
-                  //     task: state.tasks[index]
-                  //         .copyWith(isDone: !state.tasks[index].isDone)));
+                  context.bloc<TodosBloc>().add(TodosUpdate(
+                      task: state.tasks[index]
+                          .copyWith(isDone: !state.tasks[index].isDone)));
                 },
                 longPressCallback: () {
                   context
