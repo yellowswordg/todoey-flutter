@@ -29,3 +29,10 @@ class TodosDelete extends TodosEvent {
   TodosDelete({this.id});
   final String id;
 }
+
+class TodosUpdate extends TodosEvent {
+  TodosUpdate({this.task});
+  final Task task;
+  List<Object> get props => [task];
+}
+

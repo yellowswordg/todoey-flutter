@@ -4,6 +4,7 @@ import 'package:todoey_flutter/models/task.dart';
 import 'dart:collection';
 
 class TaskRepository {
+  
   static const String DB_NAME = 'todos.db';
 
   Future<Database> database() async {
@@ -68,9 +69,9 @@ class TaskRepository {
     _tasks.add(task);
   }
 
-  void updateTask(Task task) {
-    task.toggleDone();
-  }
+  // void updateTask(Task task) {
+  //   task.toggleDone();
+  // }
 
   void deleteTask(Task task) {
     _tasks.remove(task);
