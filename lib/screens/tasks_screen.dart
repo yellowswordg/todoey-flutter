@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
 import 'package:todoey_flutter/screens/add_task_screen.dart';
-import 'package:provider/provider.dart';
-import 'package:todoey_flutter/models/task_data.dart';
+
 
 class TasksScreen extends StatelessWidget {
   @override
@@ -10,21 +9,19 @@ class TasksScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.lightBlueAccent,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.lightBlueAccent,
-        child: Icon(Icons.add),
+          backgroundColor: Colors.lightBlueAccent,
+          child: Icon(Icons.add),
           onPressed: () {
             showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
                 builder: (context) => SingleChildScrollView(
-                    child:Container(
-                      padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+                        child: Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
                       child: AddTaskScreen(),
-                    )
-                )
-            );
-          }
-      ),
+                    )));
+          }),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -55,7 +52,7 @@ class TasksScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '${Provider.of<TaskData>(context).taskCount} Tasks',
+                  'here was counter Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,

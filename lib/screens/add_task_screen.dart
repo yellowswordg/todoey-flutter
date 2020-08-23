@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todoey_flutter/bloc/todos_bloc.dart';
 import 'package:todoey_flutter/models/task.dart';
-import 'package:provider/provider.dart';
-import 'package:todoey_flutter/models/task_data.dart';
 
 class AddTaskScreen extends StatelessWidget {
   @override
@@ -15,7 +15,7 @@ class AddTaskScreen extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(20.0),
+            topLeft: Radius.circular(20.0),
             topRight: Radius.circular(20.0),
           ),
         ),
@@ -46,7 +46,10 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                Provider.of<TaskData>(context).addTask(newTaskTitle);
+                context
+                    .bloc<TodosBloc>()
+                    .add(TodosAdded(Task(task: newTaskTitle)));
+                // Provider.of<TaskRepository>(context).addTask(newTaskTitle);
                 Navigator.pop(context);
               },
             ),
