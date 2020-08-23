@@ -8,11 +8,10 @@ abstract class TodosState extends Equatable {
 }
 
 
-
 class TodosLoading extends TodosState {}
 
 class TodosLoadSuccess extends TodosState {
-  TodosLoadSuccess(this.tasks);
+  const TodosLoadSuccess([this.tasks = const []]);
   final List<Task> tasks;
 
   @override

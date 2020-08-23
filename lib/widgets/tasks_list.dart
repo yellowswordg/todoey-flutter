@@ -15,12 +15,15 @@ class TasksList extends StatelessWidget {
         } else if (state is TodosLoadSuccess) {
           return ListView.builder(
             itemBuilder: (context, index) {
+              // print(state.tasks[index].task);
               return TaskTile(
                 taskTitle: state.tasks[index].task,
                 isChecked: state.tasks[index].isDone,
-                // checkboxCallback: (checkboxState) {
-                //   taskData.updateTask(task);
-                // },
+                checkboxCallback: (_) {
+                  context.bloc<TodosBloc>().add(TodosUpdate(
+                      task: state.tasks[index]
+                          .copyWith(isDone: !state.tasks[index].isDone)));
+                },
                 longPressCallback: () {
                   context
                       .bloc<TodosBloc>()

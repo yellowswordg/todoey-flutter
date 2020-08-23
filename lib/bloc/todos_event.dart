@@ -7,14 +7,6 @@ abstract class TodosEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class TodosInitial extends TodosEvent {
-  // TodosInitial(this.tasks);
-  // final List<Task> tasks;
-
-  // @override
-  // List<Object> get props => [tasks];
-
-}
 
 class TodosLoaded extends TodosEvent {}
 
@@ -29,3 +21,10 @@ class TodosDelete extends TodosEvent {
   TodosDelete({this.id});
   final String id;
 }
+
+class TodosUpdate extends TodosEvent {
+  TodosUpdate({this.task});
+  final Task task;
+  List<Object> get props => [task];
+}
+

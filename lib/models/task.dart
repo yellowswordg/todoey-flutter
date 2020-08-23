@@ -5,10 +5,15 @@ class Task {
   final String id;
   bool isDone;
 
-  Task({this.task, String id, this.isDone= false}) : this.id = id ?? Uuid().v4();
+  Task({this.task, String id, this.isDone = false})
+      : this.id = id ?? Uuid().v4();
 
-  void toggleDone() {
-    isDone = !isDone;
+  Task copyWith({String task, String id, bool isDone}) {
+    return Task(
+      task: task ?? this.task,
+      id: id ?? this.id,
+      isDone: isDone ?? this.isDone,
+    );
   }
 
   @override

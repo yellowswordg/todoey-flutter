@@ -16,43 +16,28 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
   Stream<TodosState> mapEventToState(
     TodosEvent event,
   ) async* {
-    if (event is TodosInitial) {
-      print('initial');
-      yield* _mapTodosInitialToState();
-    } else if (event is TodosLoaded) {
+    if (event is TodosLoaded) {
       yield* _mapTodosLoadedToState();
     } else if (event is TodosAdded) {
       yield* _mapTodosAddedToState(event);
     } else if (event is TodosDelete) {
       yield* _mapTodosDeleteToState(event);
-    }
-  }
-
-  Stream<TodosState> _mapTodosInitialToState() async* {
-    try {
-      final todos = await taskRepository.populateList('todos');
-      yield TodosLoadSuccess(todos
-          .map((item) => Task(
-                id: item['id'],
-                task: item['task'],
-                isDone: item['taks'],
-              ))
-          .toList());
-    } catch (_) {
-      yield TodosFailure();
+    } else if (event is TodosUpdate) {
+      yield* _mapTodosUpdateToState(event);
     }
   }
 
   Stream<TodosState> _mapTodosLoadedToState() async* {
     try {
       final todos = await taskRepository.getTask('todos');
-      yield TodosLoadSuccess(todos
-          .map((item) => Task(
-                id: item['id'],
-                task: item['task'],
-                isDone: item['taks'],
-              ))
-          .toList());
+
+      yield TodosLoadSuccess(todos.map((item) {
+        return Task(
+          id: item['id'],
+          task: item['task'],
+          isDone: item['isDone'] == 1 ? true : false,
+        );
+      }).toList());
     } catch (_) {
       yield TodosFailure();
     }
@@ -66,7 +51,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       taskRepository.insertTask('todos', {
         'id': event.task.id,
         'task': event.task.task,
-        'isDone': event.task.isDone
+        'isDone': event.task.isDone == true ? 1 : 0,
       });
     } catch (_) {
       yield TodosFailure();
@@ -81,6 +66,23 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           .toList();
       yield TodosLoadSuccess(updatedTasks);
       taskRepository.delteTask('todos', event.id);
+    } catch (_) {
+      yield TodosFailure();
+    }
+  }
+
+  Stream<TodosState> _mapTodosUpdateToState(TodosUpdate event) async* {
+    try {
+      final updatedTasks = (state as TodosLoadSuccess)
+          .tasks
+          .map((task) => task.id == event.task.id ? event.task : task)
+          .toList();
+      yield TodosLoadSuccess(updatedTasks);
+      taskRepository.updateTask('todos', {
+        'id': event.task.id,
+        'task': event.task.task,
+        'isDone': event.task.isDone == true ? 1 : 0
+      });
     } catch (_) {
       yield TodosFailure();
     }
