@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TodosBloc(taskRepository: TaskRepository())..add(TodosInitial()),
+      create: (_) =>
+          TodosBloc(taskRepository: TaskRepository())..add(TodosLoaded()),
       child: MaterialApp(
         home: TasksScreen(),
       ),
