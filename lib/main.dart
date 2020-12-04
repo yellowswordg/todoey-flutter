@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todoey_flutter/screens/tasks_screen.dart';
+import 'package:todoey_flutter/screens/task/tasks_screen.dart';
 import 'package:todoey_flutter/models/task_repository.dart';
 
 import 'bloc/todos_bloc.dart';
