@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:todoey_flutter/models/task.dart';
-import 'package:todoey_flutter/models/task_repository.dart';
+import 'package:todoey_flutter/repositories/task_repository/task_repository.dart';
 
 part 'todos_event.dart';
 part 'todos_state.dart';
@@ -29,15 +29,9 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
 
   Stream<TodosState> _mapTodosLoadedToState() async* {
     try {
-      final todos = await taskRepository.getTask('todos');
+      final todos = await taskRepository.fetchTasks('todos');
 
-      yield TodosLoadSuccess(todos.map((item) {
-        return Task(
-          id: item['id'],
-          task: item['task'],
-          isDone: item['isDone'] == 1 ? true : false,
-        );
-      }).toList());
+      yield TodosLoadSuccess(todos);
     } catch (_) {
       yield TodosFailure();
     }
@@ -48,11 +42,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
       final List<Task> updatedTasks =
           List.from((state as TodosLoadSuccess).tasks)..add(event.task);
       yield TodosLoadSuccess(updatedTasks);
-      taskRepository.insertTask('todos', {
-        'id': event.task.id,
-        'task': event.task.task,
-        'isDone': event.task.isDone == true ? 1 : 0,
-      });
+      taskRepository.insertTask('todos', event.task.toMap());
     } catch (_) {
       yield TodosFailure();
     }
@@ -78,11 +68,7 @@ class TodosBloc extends Bloc<TodosEvent, TodosState> {
           .map((task) => task.id == event.task.id ? event.task : task)
           .toList();
       yield TodosLoadSuccess(updatedTasks);
-      taskRepository.updateTask('todos', {
-        'id': event.task.id,
-        'task': event.task.task,
-        'isDone': event.task.isDone == true ? 1 : 0
-      });
+      taskRepository.updateTask('todos', event.task.toMap());
     } catch (_) {
       yield TodosFailure();
     }

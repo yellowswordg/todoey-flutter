@@ -1,5 +1,6 @@
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
+import 'package:todoey_flutter/models/task.dart';
 
 class TaskRepository {
   static const String DB_NAME = 'todos.db';
@@ -14,10 +15,11 @@ class TaskRepository {
     }, version: 1);
   }
 
-  Future<List<Map<String, dynamic>>> getTask(String table,
-      {String collectionId}) async {
+  Future<List<Task>> fetchTasks(String table, {String collectionId}) async {
     final db = await database();
-    return db.query(table);
+    final results = await db.query(table);
+    List<Task> tasks = results.map((task) => Task.fromMap(task)).toList();
+    return tasks;
   }
 
   Future<void> insertTask(String table, Map<String, Object> data) async {
