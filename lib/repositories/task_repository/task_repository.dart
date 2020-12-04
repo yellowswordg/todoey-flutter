@@ -1,6 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 import 'package:todoey_flutter/models/task.dart';
+
+final taskRepositoryProvider = Provider<TaskRepository>((ref) {
+  return TaskRepository();
+});
 
 class TaskRepository {
   static const String DB_NAME = 'todos.db';
@@ -18,7 +23,14 @@ class TaskRepository {
   Future<List<Task>> fetchTasks(String table, {String collectionId}) async {
     final db = await database();
     final results = await db.query(table);
-    List<Task> tasks = results.map((task) => Task.fromMap(task)).toList();
+
+    List<Task> tasks = results.map((task) {
+      return Task.fromMap(task);
+    }).toList();
+
+    // This is small hack to ensure Circular progress indicator on hot reload
+    // await Future.delayed(Duration(seconds: 2));
+
     return tasks;
   }
 

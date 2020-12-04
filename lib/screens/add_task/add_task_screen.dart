@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:todoey_flutter/bloc/todos_bloc.dart';
-import 'package:todoey_flutter/models/task.dart';
+import 'package:flutter_riverpod/all.dart';
+import 'package:todoey_flutter/providers/tasks_provider.dart';
 
-class AddTaskScreen extends StatelessWidget {
+class AddTaskScreen extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
-    String newTaskTitle;
+  Widget build(BuildContext context, read) {
+    String newTaskTitle = '';
 
     return Container(
       color: Color(0xff757575),
@@ -46,10 +45,8 @@ class AddTaskScreen extends StatelessWidget {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                context
-                    .bloc<TodosBloc>()
-                    .add(TodosAdded(Task(task: newTaskTitle)));
                 // Provider.of<TaskRepository>(context).addTask(newTaskTitle);
+                context.read(tasksProvider).add(newTaskTitle);
                 Navigator.pop(context);
               },
             ),

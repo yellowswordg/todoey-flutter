@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:todoey_flutter/providers/tasks_provider.dart';
 
-class MainHeader extends StatelessWidget {
+class MainHeader extends ConsumerWidget {
   const MainHeader({
     Key key,
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, watch) {
+    final state = watch(tasksProvider.state);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -31,7 +34,7 @@ class MainHeader extends StatelessWidget {
           ),
         ),
         Text(
-          'counter here',
+          'counter here ${state.counter}',
           style: TextStyle(
             color: Colors.white,
             fontSize: 18,

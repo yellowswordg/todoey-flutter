@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:uuid/uuid.dart';
 
 class Task {
-  final String task;
   final String id;
+  final String task;
   bool isDone;
 
   Task({this.task, String id, this.isDone = false})
@@ -30,9 +30,9 @@ class Task {
 
   Map<String, dynamic> toMap() {
     return {
-      'task': task,
       'id': id,
-      'isDone': isDone == true ? 1 : 2,
+      'task': task,
+      'isDone': isDone == true ? 1 : 0,
     };
   }
 
@@ -40,8 +40,8 @@ class Task {
     if (map == null) return null;
 
     return Task(
-      task: map['task'],
       id: map['id'],
+      task: map['task'],
       isDone: map['isDone'] == 1 ? true : false,
     );
   }
