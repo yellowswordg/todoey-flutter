@@ -20,8 +20,13 @@ final tasksProvider = StateNotifierProvider.autoDispose<TasksNotifier>((ref) {
   return TasksNotifier(ref);
 });
 
+final textFieldProvider = StateProvider<String>((ref) {
+  return '';
+});
+
 class TasksNotifier extends StateNotifier<TasksState> {
   final TaskRepository taskRepository;
+
   TasksNotifier(ProviderReference ref)
       : taskRepository = ref.read(taskRepositoryProvider),
         super(TasksState()) {

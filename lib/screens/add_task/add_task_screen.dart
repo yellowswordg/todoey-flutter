@@ -3,9 +3,14 @@ import 'package:flutter_riverpod/all.dart';
 import 'package:todoey_flutter/providers/tasks_provider.dart';
 
 class AddTaskScreen extends ConsumerWidget {
+  final String taskText;
+  final bool isEditing;
+
+  AddTaskScreen({this.isEditing = false, this.taskText = ''});
+
   @override
   Widget build(BuildContext context, read) {
-    String newTaskTitle = '';
+    final textField = read(textFieldProvider).state;
 
     return Container(
       color: Color(0xff757575),
@@ -29,11 +34,12 @@ class AddTaskScreen extends ConsumerWidget {
                 color: Colors.lightBlueAccent,
               ),
             ),
-            TextField(
+            TextFormField(
+              initialValue: isEditing ? textField : '',
               autofocus: true,
               textAlign: TextAlign.center,
               onChanged: (newText) {
-                newTaskTitle = newText;
+                context.read(textFieldProvider).state = newText;
               },
             ),
             FlatButton(
@@ -45,8 +51,7 @@ class AddTaskScreen extends ConsumerWidget {
               ),
               color: Colors.lightBlueAccent,
               onPressed: () {
-                // Provider.of<TaskRepository>(context).addTask(newTaskTitle);
-                context.read(tasksProvider).add(newTaskTitle);
+                context.read(tasksProvider).add(textField);
                 Navigator.pop(context);
               },
             ),

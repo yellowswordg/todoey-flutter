@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/all.dart';
-import 'package:todoey_flutter/providers/tasks_provider.dart';
+
 import 'package:todoey_flutter/screens/task/widgets/main_header.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
 import 'package:todoey_flutter/screens/add_task/add_task_screen.dart';
